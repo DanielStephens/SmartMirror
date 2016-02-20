@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MagicMirror</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="time_content">00:00</string>
+    <string name="seconds_content">00</string>
+    <string name="date_content">date content</string>
+    <string name="temp_content">0°C</string>
+    <string name="curtemp_content">0</string>
+    <string name="weatherIcon">weather icon</string>
+    <string name="ending">st</string>
+    <string name="month">January</string>
+    <string name="WoD">word of the day</string>
+    <string name="WoDdef">word of the day\nword of the day\nword of the day</string>
+    <string name="pixel">column break</string>
+    <string name="NewsHeading">Heading</string>
+    <string name="NewsSummary">Summary\nsummary\nsummary</string>
+    <string name="Calendar">event details</string>
+    <string name="Reminders">Reminders</string>
+    <string name="networkVal">0</string>
+    <string name="ballAnim">anim</string>
+
+</resources>
