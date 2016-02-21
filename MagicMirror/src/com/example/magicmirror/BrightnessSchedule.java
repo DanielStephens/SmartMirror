@@ -6,10 +6,24 @@ public class BrightnessSchedule {
 	
 	public int sunsetH;
 	public int sunsetM;
+	public int a;
+	public int b;
 	
 	public int decreaseBrightnessTime;
 	
 	public void SetBrightness(int hh, int mm, int ss){
+		int tt = hh*3600+mm*60+ss;
+		/*
+		if(!FullscreenActivity.isSleeping && tt >= a && tt <= b){
+			FullscreenActivity.instance.Sleep(true);
+			return;
+		}else if(FullscreenActivity.isSleeping){
+			if(tt > b || tt < a){
+				FullscreenActivity.instance.Sleep(false);
+				return;
+			}
+		}
+		*/
 		
 		if(FullscreenActivity.isSleeping && hh >= wakeTime && hh <= sleepTime){
 			FullscreenActivity.instance.Sleep(false);
@@ -32,7 +46,7 @@ public class BrightnessSchedule {
 		int t = hh*60 + mm;
 		
 		float dimProgress = Lerp(start, end, t);
-		dimProgress = dimProgress*0.9f;
+		dimProgress = dimProgress*0.5f;
 		
 		FullscreenActivity.instance.SetOverlay((int)(255f*dimProgress));
 	}

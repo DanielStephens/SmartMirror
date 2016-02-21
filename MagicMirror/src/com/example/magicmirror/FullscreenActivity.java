@@ -86,6 +86,7 @@ public class FullscreenActivity extends Activity{
 	KeyguardManager keyguardManager;
 	KeyguardLock keyguardLock;
 	*/
+	//
 	
 	//MODULES
 	private CalendarModule mCalendar;
@@ -138,6 +139,13 @@ public class FullscreenActivity extends Activity{
     }
     */
 	View contentView;
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		
+		PostSetup();
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -193,23 +201,11 @@ public class FullscreenActivity extends Activity{
 	    //wV.loadDataWithBaseURL("file:///android_asset/", loadData("meditation.gif", 250) , "text/html", "utf-8",null);
 	    
 		delayedHide(10);
-		
 		instance = this;
 		isSleeping = false;
-		Setup();
-		//Sleep(!isSleeping);
 		
-		/*
-		isSleeping = false;
 		Setup();
-		instance = this;
 		PostSetup();
-		updateHandler.post(Update);
-		*/
-		
-		PostSetup();
-		updateHandler.post(Update);
-		//updateHandler.postDelayed(Update5s, 2000);
 	}
 	
 	
@@ -278,6 +274,14 @@ public class FullscreenActivity extends Activity{
 			
 			@Override
 			public void onTimeUpdate(String t, String s, int hh, int mm, int ss) {
+				/*
+				if(firstLoop2){
+					bSchedule.a = hh*3600+mm*60+ss + 10;
+					bSchedule.b = hh*3600+mm*60+ss + 20;
+					firstLoop2 = false;
+				}
+				*/
+				
 				bSchedule.SetBrightness(hh, mm, ss);
 				
 				if(isSleeping) return;
@@ -285,7 +289,7 @@ public class FullscreenActivity extends Activity{
 				timeValue.setText(t);
 			    secondsValue.setText(s);
 			    
-			    if(mm == 1 && ss == 0){
+			    if(mm == 5 && ss == 0){
 					if(mWeather != null){
 						WeatherModule.getWeatherEvents(mWeatherListener);
 					}
@@ -293,10 +297,11 @@ public class FullscreenActivity extends Activity{
 						NewsModule.getNewsEvents(mNewsListener);
 					}
 			    }
+			    
 			}
 			
 			@Override
-			public void onMilliUpdate(float mills) {
+			public void onMilliUpdate(float mills){
 				if(isSleeping) return;
 				
 				base = timeValue.getBaseline()-16;
@@ -361,6 +366,7 @@ public class FullscreenActivity extends Activity{
 		};
 		
 		textWidths = SetupSizes();
+		updateHandler.post(Update);
 	}
 	
 	int[] SetupSizes(){
@@ -422,7 +428,7 @@ public class FullscreenActivity extends Activity{
 	
 	public void Sleep(boolean b){
 		isSleeping = b;
-		SetOverlay(b ? 125 : 0);
+		SetOverlay(b ? 255 : 0);
 		
 		if(!b){
 			PostSetup();
