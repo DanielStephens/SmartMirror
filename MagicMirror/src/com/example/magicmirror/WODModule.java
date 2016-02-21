@@ -26,17 +26,21 @@ public class WODModule {
             	String[] strs = new String[2];
             	
             	try {
-            		//WORD OF THE DAY
-            		URL url1 = new URL("http://dictionary.reference.com/wordoftheday/");
-        			InputStream is = url1.openStream();
-        			FullscreenActivity.networkAccessed ++;
-        			int ptr = 0;
-        			StringBuffer buffer = new StringBuffer();
-        			while ((ptr = is.read()) != -1) {
-        			    buffer.append((char)ptr);
-        			}
-        			
-        			String html = buffer.toString();
+            		String html = "";
+            		
+            		while(html == ""){
+	            		//WORD OF THE DAY
+	            		URL url1 = new URL("http://dictionary.reference.com/wordoftheday/");
+	        			InputStream is = url1.openStream();
+	        			FullscreenActivity.networkAccessed ++;
+	        			int ptr = 0;
+	        			StringBuffer buffer = new StringBuffer();
+	        			while ((ptr = is.read()) != -1) {
+	        			    buffer.append((char)ptr);
+	        			}
+	        			
+	        			html = buffer.toString();
+            		}
         			
         			String[] temp = html.split("Definitions for <strong>");
         			String word = temp[1].split("<")[0];

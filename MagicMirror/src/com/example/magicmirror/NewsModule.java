@@ -36,20 +36,23 @@ public class NewsModule {
     			
     			for(int i = 0; i < urlList.length; i++){
     				html = "";
-    				try{
-    			    	url1 = new URL(urlList[i]);
-    					is = url1.openStream();
-    					FullscreenActivity.networkAccessed ++;
-    					ptr = 0;
-    					buffer = new StringBuffer();
-    					while ((ptr = is.read()) != -1) {
-    					    buffer.append((char)ptr);
-    					}
-    					
-    					html = buffer.toString();
-    		    	}catch(IOException e){
-    		    		//
-    		    	}
+    				while(html == ""){
+	    				try{
+	    			    	url1 = new URL(urlList[i]);
+	    					is = url1.openStream();
+	    					FullscreenActivity.networkAccessed ++;
+	    					ptr = 0;
+	    					buffer = new StringBuffer();
+	    					while ((ptr = is.read()) != -1) {
+	    					    buffer.append((char)ptr);
+	    					}
+	    					html = buffer.toString();
+	    					
+	    					
+	    		    	}catch(IOException e){
+	    		    		//
+	    		    	}
+    				}
     				
     				for(int j = 0; j < topicList[i]; j++){
     					NewsItem n = null;

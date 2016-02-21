@@ -24,18 +24,19 @@ public class WeatherModule {
             @Override
             protected Void doInBackground(Void... params){
             	String[] strs = new String[4];
-            	
+            	String html = "";
             	try {
-            		URL url1 = new URL("http://www.bbc.co.uk/weather/2654675");
-        			InputStream is = url1.openStream();
-        			FullscreenActivity.networkAccessed ++;
-        			int ptr = 0;
-        			StringBuffer buffer = new StringBuffer();
-        			while ((ptr = is.read()) != -1) {
-        			    buffer.append((char)ptr);
-        			}
-        			
-        			String html = buffer.toString();
+            		while(html == ""){
+	            		URL url1 = new URL("http://www.bbc.co.uk/weather/2654675");
+	        			InputStream is = url1.openStream();
+	        			FullscreenActivity.networkAccessed ++;
+	        			int ptr = 0;
+	        			StringBuffer buffer = new StringBuffer();
+	        			while ((ptr = is.read()) != -1) {
+	        			    buffer.append((char)ptr);
+	        			}
+	        			html = buffer.toString();
+            		}
         			String[] temp = html.split("<span class=\"units-values temperature-units-values\"><span data-unit=\"c\" class=\"units-value temperature-value temperature-value-unit-c\">");
         			strs[0] = temp[0].split("<td class=\"weather\">")[1].split("<p>")[1].split("</p>")[0];
         			strs[1] = temp[1].split("<")[0];
