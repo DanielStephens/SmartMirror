@@ -192,7 +192,7 @@
                     android:id="@+id/WordOfDay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="30dp"
                     android:gravity="top|start"
                     android:keepScreenOn="true"
                     android:text="@string/WoD"

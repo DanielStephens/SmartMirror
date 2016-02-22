@@ -1,5 +1,7 @@
 package com.example.magicmirror;
 
+import android.provider.Settings.SettingNotFoundException;
+
 public class BrightnessSchedule {
 	public int wakeTime = 7;
 	public int sleepTime = 22;
@@ -46,9 +48,13 @@ public class BrightnessSchedule {
 		int t = hh*60 + mm;
 		
 		float dimProgress = Lerp(start, end, t);
-		dimProgress = dimProgress*0.5f;
+		dimProgress = 1 - dimProgress*0.9f;
 		
-		FullscreenActivity.instance.SetOverlay((int)(255f*dimProgress));
+		try {
+			FullscreenActivity.instance.SetBright(dimProgress);
+		} catch (SettingNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	float Lerp(int start, int end, int t){

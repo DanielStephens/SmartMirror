@@ -9,7 +9,6 @@ import com.example.magicmirror.util.SystemUiHider;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
@@ -33,6 +32,7 @@ public class FullscreenActivity extends Activity{
 	public static FullscreenActivity instance;
 	
 	static int networkAccessed = 0;
+	static int weatherUpdatedAccessed = 0;
 	
 	ArrayList<NewsItem> newsItemArray;
 		
@@ -144,12 +144,6 @@ public class FullscreenActivity extends Activity{
 	protected void onResume(){
 		super.onResume();
 		
-		PostSetup();
-	}
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_fullscreen);
 		
@@ -207,6 +201,64 @@ public class FullscreenActivity extends Activity{
 		Setup();
 		PostSetup();
 	}
+	
+	/*
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_fullscreen);
+		
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		instance = this;
+		
+		contentView = findViewById(R.id.fullscreen_content);
+
+        mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
+		
+        contentView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				delayedHide(0);
+			}
+		});
+        
+        density = getResources().getDisplayMetrics().density;
+		
+		timeValue = (TextView) findViewById(R.id.Time);
+		secondsValue = (TextView) findViewById(R.id.Seconds);
+		dateValue = (TextView) findViewById(R.id.Date);
+		endingValue = (TextView) findViewById(R.id.Ending);
+		monthValue = (TextView) findViewById(R.id.Month);
+		tempValue = (TextView) findViewById(R.id.Temperature);
+		curTempValue = (TextView) findViewById(R.id.CurTemperature);
+		wordOfDay = (TextView) findViewById(R.id.WordOfDay);
+		wordDefinitions = (TextView) findViewById(R.id.Definition);
+		weatherImg = (ImageView)findViewById(R.id.WeatherIcon);
+		newsHeading = (TextView)findViewById(R.id.NewsHeading);
+		newsSummary = (TextView)findViewById(R.id.NewsSummary);
+		calendarValue = (TextView)findViewById(R.id.Calendar);
+		
+		lineImg = (ImageView)findViewById(R.id.BounceLine);
+		
+		tail = (ImageView)findViewById(R.id.Tail2);
+		ball = (ImageView)findViewById(R.id.Ball);
+		
+		overlay = (FrameLayout)findViewById(R.id.overlay);
+		
+	    //WebView wV = (WebView)findViewById(R.id.LoadingGif);
+	    //wV.loadDataWithBaseURL("file:///android_asset/", loadData("meditation.gif", 250) , "text/html", "utf-8",null);
+	    
+		delayedHide(10);
+		instance = this;
+		isSleeping = false;
+		
+		Setup();
+		PostSetup();
+		
+	}
+	*/
 	
 	
 	void Setup(){
@@ -428,6 +480,12 @@ public class FullscreenActivity extends Activity{
 	
 	public void Sleep(boolean b){
 		isSleeping = b;
+		try {
+			SetBright(0.1f);
+		} catch (SettingNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		SetOverlay(b ? 255 : 0);
 		
 		if(!b){
@@ -504,6 +562,7 @@ public class FullscreenActivity extends Activity{
 				
 				
 				if(colour == 0){
+					fadeDirection = 1;
 					newsIndex ++;
 					newsIndex %= newsItemArray.size();
 					
@@ -525,8 +584,6 @@ public class FullscreenActivity extends Activity{
 						s += "...";
 						newsSummary.setText(s);
 					}
-					
-					fadeDirection = 1;
 				}
 				
 				colour += fadeDirection;
