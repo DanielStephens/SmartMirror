@@ -37,12 +37,33 @@ public class WeatherModule {
 	        			}
 	        			html = buffer.toString();
             		}
-        			String[] temp = html.split("<span class=\"units-values temperature-units-values\"><span data-unit=\"c\" class=\"units-value temperature-value temperature-value-unit-c\">");
-        			strs[0] = temp[0].split("<td class=\"weather\">")[1].split("<p>")[1].split("</p>")[0];
-        			strs[1] = temp[1].split("<")[0];
-        			strs[2] = temp[2].split("<")[0];
+        			String[] temp = html.split("class=\"units-value temperature-value temperature-value-unit-c\">");
+        			
+        			try {
+						strs[0] = temp[0].split("<td class=\"weather\">")[1].split("<p>")[1].split("</p>")[0];
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        			try {
+						strs[1] = temp[1].split("<")[0];
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        			try {
+						strs[2] = temp[2].split("<")[0];
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
         			temp = html.split("<tr class=\"temperature\">");
-        			strs[3] = temp[1].split("units-value temperature-value temperature-value-unit-c\">")[1].split("<")[0];
+        			try {
+						strs[3] = temp[1].split("class=\"units-value temperature-value temperature-value-unit-c\">")[1].split("<")[0];
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
         		} catch (IOException e) {
         			e.printStackTrace();
         		}
