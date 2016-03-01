@@ -14,8 +14,9 @@ public class BrightnessSchedule {
 	public int decreaseBrightnessTime;
 	
 	public void SetBrightness(int hh, int mm, int ss){
-		int tt = hh*3600+mm*60+ss;
 		/*
+		int tt = hh*3600+mm*60+ss;
+		
 		if(!FullscreenActivity.isSleeping && tt >= a && tt <= b){
 			FullscreenActivity.instance.Sleep(true);
 			return;
@@ -39,7 +40,6 @@ public class BrightnessSchedule {
 		
 		
 		if(FullscreenActivity.isSleeping) return;
-		
 		if(sunsetH == 0 && sunsetM == 0) return;
 		
 		int start = (sunsetH-1)*60+sunsetM;

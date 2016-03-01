@@ -88,16 +88,16 @@ public class TimeModule {
     				mag = hours % 10 == 0 ? 6 : 5;
     				prevHours = hours;
     				
-    				if(prevDate != date){
-            			timeListener.onDateUpdate(formattedDate);
-            			prevDate = date;
-            		}
-    				
     			}
     		}
     		
     		timeListener.onMagnitudeUpdate(mag);
     	}
+    	
+    	if(prevDate != date){
+			timeListener.onDateUpdate(formattedDate);
+			prevDate = date;
+		}
     	
     	//if something
     	//onMagnitudeUpdate

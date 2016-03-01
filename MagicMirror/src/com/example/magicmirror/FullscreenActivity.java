@@ -89,6 +89,7 @@ public class FullscreenActivity extends Activity{
 	//
 	
 	//MODULES
+	private boolean first = true;
 	private CalendarModule mCalendar;
 	private CalendarModule.CalendarListener mCalendarListener;
 	
@@ -144,7 +145,10 @@ public class FullscreenActivity extends Activity{
 	protected void onResume(){
 		super.onResume();
 		
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		if(first){
+			requestWindowFeature(Window.FEATURE_NO_TITLE);
+			//first = false;
+		}
 		setContentView(R.layout.activity_fullscreen);
 		
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -198,7 +202,10 @@ public class FullscreenActivity extends Activity{
 		instance = this;
 		isSleeping = false;
 		
-		Setup();
+		if(first){
+			Setup();
+			first = false;
+		}
 		PostSetup();
 	}
 	
@@ -300,7 +307,6 @@ public class FullscreenActivity extends Activity{
 					curTempValue.setText(weatherDetails[3] + "°C");
 					weatherImg.setImageResource(GetResourceID(weatherDetails[0]));
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 
@@ -349,7 +355,6 @@ public class FullscreenActivity extends Activity{
 						NewsModule.getNewsEvents(mNewsListener);
 					}
 			    }
-			    
 			}
 			
 			@Override
@@ -410,10 +415,19 @@ public class FullscreenActivity extends Activity{
 			
 			@Override
 			public void onDateUpdate(String[] d) {
-				if(isSleeping) return;
 				dateValue.setText(d[0]);
 				endingValue.setText(d[1]);
 				monthValue.setText(d[2]);
+				
+				if(mCalendar != null){
+		        	CalendarModule.getCalendarEvents(cr, mCalendarListener);
+		        }
+				if(mWeather != null){
+					WeatherModule.getSunset(mWeatherListener);
+				}
+				if(mWOD != null){
+					WODModule.getWODEvents(mWODListener);
+				}
 			}
 		};
 		
@@ -466,6 +480,7 @@ public class FullscreenActivity extends Activity{
 		}
 		
 		if(mTime != null){
+			TimeModule.prevDate = -1;
         	TimeModule.getTime(mTimeListener);
         }
         
@@ -480,11 +495,17 @@ public class FullscreenActivity extends Activity{
 	
 	public void Sleep(boolean b){
 		isSleeping = b;
-		try {
-			SetBright(0.1f);
-		} catch (SettingNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		if(b){
+			try {
+				SetBright(0.1f);
+			} catch (SettingNotFoundException e) {
+			}
+		}else{
+			try {
+				SetBright(1);
+			} catch (SettingNotFoundException e) {
+			}
 		}
 		SetOverlay(b ? 255 : 0);
 		
