@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Locale;
 
+import android.R.string;
 import android.os.AsyncTask;
 
 public class WODModule {
@@ -65,9 +66,22 @@ public class WODModule {
         			
         			strs[0] = word.substring(0, 1).toUpperCase(Locale.UK) + word.substring(1);
         			
-        			int l = 150;
+        			String[] substr = defCompilation.split("<+/+.+?>");
+        			defCompilation = "";
+        			for(int i = 0; i < substr.length; i++){
+        				defCompilation += substr[i];
+        			}
+        			substr = defCompilation.split("<+.+?>");
+        			defCompilation = "";
+        			for(int i = 0; i < substr.length; i++){
+        				defCompilation += substr[i];
+        			}
+        			
+        			
+        			
+        			int l = 120;
         			if(defCompilation.length() > l){
-        				defCompilation = defCompilation.substring(0, l)+"...";
+        				defCompilation = defCompilation.substring(0, l-3)+"...";
         			}
         			strs[1] = defCompilation;
             	}catch(IOException e){

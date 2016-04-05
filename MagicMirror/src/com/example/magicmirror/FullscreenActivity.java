@@ -294,6 +294,8 @@ public class FullscreenActivity extends Activity{
 			@Override
 			public void onNewsUpdate(ArrayList<NewsItem> newsDetails) {
 				newsItemArray = newsDetails;
+				updateHandler.removeCallbacksAndMessages(switchNews);
+				updateHandler.post(switchNews);
 			}
 		};
 		
@@ -485,12 +487,11 @@ public class FullscreenActivity extends Activity{
         }
         
 		
-		firstLoop = true;
+		//firstLoop = true;
 		newsIndex = -1;
 		colour = 0;
 		fadeDirection = 1;
 		updateHandler.post(colourLoop);
-		
 	}
 	
 	public void Sleep(boolean b){
@@ -584,6 +585,7 @@ public class FullscreenActivity extends Activity{
 				
 				if(colour == 0){
 					fadeDirection = 1;
+					//dateValue.setText(""+fadeDirection);
 					newsIndex ++;
 					newsIndex %= newsItemArray.size();
 					
@@ -610,6 +612,7 @@ public class FullscreenActivity extends Activity{
 				colour += fadeDirection;
 				
 				if(colour == 255){
+					//firstLoop = true;
 					updateHandler.postDelayed(switchNews, 10000);
 				}
 				

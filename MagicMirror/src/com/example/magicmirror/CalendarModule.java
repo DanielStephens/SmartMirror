@@ -10,6 +10,7 @@ import java.util.TimeZone;
 
 
 
+
 import android.content.ContentResolver;
 //import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -89,7 +90,11 @@ public class CalendarModule {
 	                        int diffTz = localTz.getOffset(new Date().getTime()) - eventTz.getOffset(new Date().getTime()); 
 	                        startTime.setTimeInMillis(cursor.getLong(3) - diffTz);
 	                        endTime.setTimeInMillis(cursor.getLong(4) - diffTz);
-	                        deets.add(new EventDetail(startTime, endTime, title));
+	                        
+	                        EventDetail e = new EventDetail(startTime, endTime, title);
+	                        if(!Contains(deets, e)){
+	                        	deets.add(e);
+	                        }
                        	}
                     }
                 cursor.close();
@@ -127,6 +132,42 @@ public class CalendarModule {
                 
                 return null;
             }
+            
+            boolean Similar(String n1, String n2){
+        		String[] words1 = n1.split(" ");
+        		String[] words2 = n2.split(" ");
+        		
+        		int count = 0;
+        		for(int i = 0; i < words1.length; i++){
+        			for(int j = 0; j < words2.length; j++){
+        				if(words1[i].contains(words2[j]) || words2[j].contains(words1[i])){
+        					count ++;
+        				}
+        			}
+        		}
+        		
+        		if((float)count/(float)words1.length > 0.8f){
+        			return true;
+        		}
+        		
+        		return false;
+        	}
+            
+            boolean Approximate(long l1, long l2){
+            	return Math.abs(l1-l2)<900000;
+            }
+            
+            boolean Contains(List<EventDetail> es, EventDetail e){
+        		for(int i = 0; i < es.size(); i ++){
+        			EventDetail e2 = es.get(i);
+        			if(Approximate(e2.end.getTimeInMillis(), e.end.getTimeInMillis())
+        					&& Approximate(e2.start.getTimeInMillis(), e.start.getTimeInMillis())
+        					&& Similar(e2.name, e.name)){
+        				return true;
+        			}
+        		}
+        		return false;
+        	}
         }.execute();
     }
 }
